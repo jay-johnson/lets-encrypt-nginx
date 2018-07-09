@@ -44,6 +44,19 @@ Tail the Container Logs
 
     docker logs -f nginx
 
+Troubleshooting
+---------------
+
+Manually Debug Cert Registration
+================================
+
+::
+
+    ./ssh.sh
+    cp /opt/containerfiles/base_nginx.conf /etc/nginx/nginx.conf && cp /opt/containerfiles/derived_nginx.conf /etc/nginx/conf.d/default.com
+    nginx &
+    /opt/containerfiles/certbot-auto certonly -n --agree-tos --webroot -m bugs@antinex.com -w /opt/certs/release -d antinex.com -d www.antinex.com -d api.antinex.com -d jupyter.antinex.com -d pgadmin.antinex.com -d splunk.antinex.com -d ark.antinex.com -d redis.antinex.com
+
 License
 -------
 
