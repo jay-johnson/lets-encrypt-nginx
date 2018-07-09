@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  # nginx
+  nginx:
+    image: jayjohnson/certbot-nginx:1.0.0
+    hostname: nginx
+    env_file:
+      - ./antinex.env
+    volumes:
+      # mount current directory inside container
+      - ./live-start-container.sh:/opt/containerfiles/start-container.sh
+      - .:/opt/nginx
+      - /opt/antinex/archive:/opt/archive
+      - /opt/antinex/certs:/opt/certs
+      - /opt/antinex/letsencrypt:/etc/letsencrypt
+      - /opt/antinex/shared:/opt/shared
+      - /opt/antinex/splunk:/opt/splunk
+      - /opt/antinex/web:/opt/web
+      - /opt/antinex/static:/opt/static
+    ports:
+      # API non-ssl rewrite to ssl
+      - "80:80"
+      # API ssl
+      - "443:443"
+      # pgAdmin
+      - "10300:10300"
+      # Jupyter
+      - "10400:10400"
+      # Jupyter - slides notebook 1
+      - "10401:10401"
+      # Jupyter - slides notebook 2
+      - "10402:10402"
+      # Splunk - web app
+      - "11000:11000"
+    container_name: "nginx"
+    network_mode: "host"
